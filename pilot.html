@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drone Pilot: Arte das Filmagens | Jamerson Cunha</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-glow: rgba(14, 165, 233, 0.6);
+            --pilot-black: #020617;
+            --white: #ffffff;
+            --bg-dark: #020617;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --sidebar-width: 340px;
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @media (min-width: 1301px) {
+            :root { --sidebar-width: 400px; }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Sora', sans-serif;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        body {
+            background-color: #f8fafc;
+            color: var(--text-main);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* Mobile Header */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(15px);
+            color: white;
+            z-index: 2000;
+            padding: 0 1.5rem;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, #083344 0%, #020617 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            z-index: 2100;
+            box-shadow: 10px 0 50px rgba(0,0,0,0.3);
+            transition: var(--transition);
+        }
+
+        .sidebar-brand {
+            padding: 3rem 2.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .brand-title {
+            font-weight: 900;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            color: var(--primary);
+            letter-spacing: -2px;
+            line-height: 0.9;
+            text-shadow: 0 0 30px var(--primary-glow);
+            text-transform: uppercase;
+        }
+
+        .instructor-branding {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #38bdf8;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .progress-box {
+            margin: 2rem;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .progress-bar-outer {
+            background: rgba(255,255,255,0.1);
+            height: 8px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar-inner {
+            background: linear-gradient(90deg, var(--primary) 0%, #60a5fa 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .nav-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            padding: 1.25rem 2.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            transition: var(--transition);
+            border-left: 6px solid transparent;
+            opacity: 0.7;
+        }
+
+        .nav-item.active {
+            background: rgba(59, 130, 246, 0.1);
+            border-left-color: var(--primary);
+            opacity: 1;
+        }
+
+        /* Main */
+        .main-workspace {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            background: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+        }
+
+        @media (max-width: 1300px) {
+            .main-workspace { margin-left: 0; padding-top: 70px; }
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .mobile-header { display: flex; }
+        }
+
+        .hero-banner {
+            padding: clamp(3rem, 8vh, 6rem) clamp(1.5rem, 5vw, 6rem);
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .hero-banner h1 {
+            font-size: clamp(2.5rem, 8vw, 4.2rem);
+            font-weight: 900;
+            letter-spacing: -3px;
+            margin-bottom: 1rem;
+            line-height: 1;
+            color: var(--bg-dark);
+            text-transform: uppercase;
+        }
+
+        .content-body {
+            padding: clamp(1.5rem, 5vw, 5rem);
+            max-width: 1200px;
+            margin: 0 auto;
+            flex: 1;
+            width: 100%;
+        }
+
+        .media-frame {
+            margin-bottom: 4rem;
+            border-radius: clamp(20px, 4vw, 40px);
+            overflow: hidden;
+            box-shadow: 0 40px 100px rgba(15, 23, 42, 0.12);
+        }
+
+        .media-frame img { width: 100%; display: block; height: auto; }
+
+        .workspace-footer {
+            padding: 2rem clamp(1.5rem, 5vw, 6rem);
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            padding: 1rem 2rem;
+            border-radius: 14px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            flex: 1;
+            max-width: 250px;
+        }
+
+        .btn-next { background: var(--bg-dark); color: white; }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 900;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-header">
+        <div class="brand-title" style="font-size: 1.2rem; margin-bottom: 0;">📸 DRONE PILOT</div>
+        <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+    </div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.3em; color: rgba(255,255,255,0.5); font-weight: 800;">Creative Production</div>
+            <div class="brand-title">🎬 DRONE PILOT</div>
+            <div class="instructor-branding">
+                <span>By Jamerson Cunha</span>
+                <span style="font-size: 1rem;">🎥</span>
+            </div>
+        </div>
+        
+        <div class="progress-box">
+            <div class="progress-bar-outer">
+                <div class="progress-bar-inner" id="progressBar"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.7rem; font-weight: 800; color: rgba(255,255,255,0.5);">
+                <span>EVOLUÇÃO CRIATIVA</span>
+                <span id="progressPercent">0%</span>
+            </div>
+        </div>
+
+        <nav class="nav-list" id="moduleNav"></nav>
+    </aside>
+
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <main class="main-workspace">
+        <header class="hero-banner" id="moduleHeader"></header>
+        <div class="content-body" id="moduleContent"></div>
+        <footer class="workspace-footer">
+            <button class="nav-btn" style="background: #f1f5f9; color: #475569;" onclick="changeModule(currentModuleIndex - 1)">← Voltar</button>
+            <button class="nav-btn btn-next" id="btnNext" onclick="changeModule(currentModuleIndex + 1)">Próximo Módulo →</button>
+        </footer>
+    </main>
+
+    <script>
+        const modules = [
+            {
+                id: 1,
+                title: "Introdução à Pilotagem Criativa",
+                description: "O mindset do piloto de cinema e as configurações essenciais para imagem fluida.",
+                image: "media/pilotage.png",
+                content: `
+                    <section>
+                        <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">A Visão do Diretor</h2>
+                        <p style="margin-bottom: 1.5rem;">Pilotar para filmagem é diferente de pilotar para lazer. Aqui, o foco é a <strong>suavidade</strong>. Aprenda a configurar seus sticks para movimentos cinematográficos e evitar guinadas bruscas.</p>
+                        <div style="padding: 2rem; background: #eff6ff; border-radius: 20px; border: 1px solid #bfdbfe;">
+                            <strong>Dica de Jamerson:</strong> "O segredo de uma imagem de cinema não está no drone, mas no dedo do piloto. Menos é mais."
+                        </div>
+                    </section>
+                `
+            },
+            {
+                id: 2,
+                title: "Composição e Enquadramento",
+                description: "Regra dos terços, simetria e como guiar o olhar do espectador.",
+                image: "media/photo.png",
+                content: `
+                    <section>
+                        <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">Pintando com o Drone</h2>
+                        <p>Dominar a composição aérea é o que separa um amador de um profissional. Entenda como usar as linhas naturais do cenário para criar profundidade e impacto visual.</p>
+                    </section>
+                `
+            }
+        ];
+
+        let currentModuleIndex = 0;
+        let completedModules = new Set();
+
+        function init() {
+            renderNav();
+            updateModule();
+        }
+
+        function renderNav() {
+            const nav = document.getElementById('moduleNav');
+            nav.innerHTML = modules.map((m, index) => {
+                const isActive = index === currentModuleIndex;
+                return `
+                    <div class="nav-item ${isActive ? 'active' : ''}" onclick="changeModule(${index})">
+                        <div style="font-size: 0.7rem; font-weight: 900; background: rgba(255,255,255,0.05); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 10px;">${index + 1}</div>
+                        <div style="flex: 1; font-size: 0.95rem; font-weight: 600;">${m.title}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateModule() {
+            const m = modules[currentModuleIndex];
+            const contentArea = document.getElementById('moduleContent');
+            const headerArea = document.getElementById('moduleHeader');
+
+            headerArea.innerHTML = `<h1>${m.title}</h1><p style="color: var(--text-muted); font-size: 1.2rem;">${m.description}</p>`;
+            contentArea.innerHTML = `<div class="media-frame"><img src="${m.image}" alt="${m.title}"></div>${m.content}`;
+            
+            document.getElementById('progressBar').style.width = Math.round((completedModules.size / modules.length) * 100) + '%';
+            document.getElementById('progressPercent').innerText = Math.round((completedModules.size / modules.length) * 100) + '%';
+            
+            renderNav();
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.querySelector('.sidebar-overlay').style.display = document.getElementById('sidebar').classList.contains('open') ? 'block' : 'none';
+        }
+
+        function changeModule(index) {
+            if (index < 0 || index >= modules.length) return;
+            if (index > currentModuleIndex) completedModules.add(currentModuleIndex);
+            currentModuleIndex = index;
+            updateModule();
+            if (window.innerWidth <= 1300) {
+                document.getElementById('sidebar').classList.remove('open');
+                document.querySelector('.sidebar-overlay').style.display = 'none';
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>

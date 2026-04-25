@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drone Agro Pro: Formação de Elite | Jamerson Cunha</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #22c55e;
+            --primary-glow: rgba(34, 197, 94, 0.6);
+            --accent-yellow: #facc15;
+            --agro-black: #020617;
+            --white: #ffffff;
+            --bg-dark: #020617;
+            --bg-glass: rgba(255, 255, 255, 0.95);
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --sidebar-width: 340px;
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @media (min-width: 1301px) {
+            :root { --sidebar-width: 400px; }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Sora', sans-serif;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        body {
+            background-color: #f8fafc;
+            color: var(--text-main);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal-up {
+            animation: fadeInUp 0.8s var(--transition) forwards;
+        }
+
+        /* Mobile Navigation Toggle */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(15px);
+            color: white;
+            z-index: 2000;
+            padding: 0 1.5rem;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            transition: var(--transition);
+        }
+        .menu-toggle:active { transform: scale(0.9); }
+
+        /* Sidebar Architecture */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, #064e3b 0%, #022c22 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            z-index: 2100;
+            box-shadow: 10px 0 50px rgba(0,0,0,0.3);
+            transition: var(--transition);
+        }
+
+        .sidebar-brand {
+            padding: 3rem 2.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .brand-title {
+            font-weight: 900;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            color: var(--primary);
+            letter-spacing: -2px;
+            line-height: 0.9;
+            text-shadow: 0 0 30px var(--primary-glow);
+            text-transform: uppercase;
+        }
+
+        .brand-sub {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: rgba(255,255,255,0.5);
+            font-weight: 800;
+        }
+
+        .instructor-branding {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent-yellow);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .progress-box {
+            margin: 2rem;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(5px);
+        }
+
+        .progress-bar-outer {
+            background: rgba(255,255,255,0.1);
+            height: 8px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar-inner {
+            background: linear-gradient(90deg, var(--primary) 0%, #34d399 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .progress-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 0.1em;
+        }
+
+        .nav-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            padding: 1.25rem 2.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            transition: var(--transition);
+            border-left: 6px solid transparent;
+            opacity: 0.7;
+        }
+
+        .nav-item:hover { 
+            background: rgba(255,255,255,0.03); 
+            opacity: 1;
+            padding-left: 3rem;
+        }
+        
+        .nav-item.active {
+            background: rgba(16, 185, 129, 0.1);
+            border-left-color: var(--primary);
+            opacity: 1;
+        }
+
+        .nav-num {
+            font-size: 0.7rem;
+            font-weight: 900;
+            background: rgba(255,255,255,0.05);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        .active .nav-num { 
+            background: var(--primary); 
+            color: white; 
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .nav-content { flex: 1; }
+        .nav-title { font-size: 0.95rem; font-weight: 600; color: white; }
+
+        /* Main Workspace */
+        .main-workspace {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            background: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+        }
+
+        @media (max-width: 1300px) {
+            .main-workspace { margin-left: 0; padding-top: 70px; }
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .mobile-header { display: flex; }
+        }
+
+        .hero-banner {
+            padding: clamp(3rem, 8vh, 6rem) clamp(1.5rem, 5vw, 6rem);
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .hero-banner h1 {
+            font-size: clamp(2.5rem, 8vw, 4.2rem);
+            font-weight: 900;
+            letter-spacing: -3px;
+            margin-bottom: 1.5rem;
+            color: var(--bg-dark);
+            line-height: 1;
+            position: relative;
+            z-index: 1;
+            text-transform: uppercase;
+        }
+
+        .hero-desc {
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            color: var(--text-muted);
+            max-width: 900px;
+            line-height: 1.4;
+            position: relative;
+            z-index: 1;
+            font-weight: 500;
+        }
+
+        .content-body {
+            padding: clamp(1.5rem, 5vw, 5rem);
+            max-width: 1200px;
+            margin: 0 auto;
+            flex: 1;
+            width: 100%;
+        }
+
+        .media-frame {
+            margin-bottom: 4rem;
+            border-radius: clamp(20px, 4vw, 40px);
+            overflow: hidden;
+            box-shadow: 0 40px 100px rgba(15, 23, 42, 0.12);
+            border: 1px solid #e2e8f0;
+            background: white;
+            position: relative;
+        }
+
+        .media-frame img { width: 100%; display: block; height: auto; transition: transform 0.8s ease; }
+        .media-frame:hover img { transform: scale(1.03); }
+
+        section { margin-bottom: 4rem; }
+
+        .section-tag {
+            font-size: 0.75rem;
+            font-weight: 900;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .section-title {
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 800;
+            color: var(--bg-dark);
+            margin-bottom: 2rem;
+            letter-spacing: -1px;
+        }
+
+        .rich-text {
+            font-size: clamp(1rem, 2vw, 1.15rem);
+            color: #475569;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+
+        /* Specialized Panels */
+        .panel {
+            padding: clamp(1.5rem, 4vw, 3rem);
+            border-radius: 24px;
+            margin-bottom: 4rem;
+            border: 1px solid transparent;
+            position: relative;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+
+        .panel-instructor { background: #f0fdf4; border-color: #bbf7d0; }
+        .panel-legal { background: #eff6ff; border-color: #bfdbfe; }
+        .panel-agro { background: #fdfce8; border-color: #fef08a; }
+        .panel-danger { background: #fef2f2; border-color: #fecaca; }
+
+        .panel-label {
+            position: absolute;
+            top: -15px;
+            left: 25px;
+            padding: 0.5rem 1.5rem;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        /* Data Visualization */
+        .agro-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 2rem 1.5rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        .stat-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+
+        .stat-val {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        /* Checklists */
+        .agro-check-list { 
+            list-style: none; 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 1rem; 
+        }
+        .agro-check-item {
+            padding: 1.25rem;
+            background: white;
+            border-radius: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: 1px solid #e2e8f0;
+            transition: var(--transition);
+        }
+        .agro-check-item:hover { border-color: var(--primary); transform: translateX(5px); }
+        .agro-check-item::before {
+            content: '✓';
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+        }
+
+        /* Table */
+        .data-table-wrapper {
+            overflow-x: auto;
+            margin-bottom: 4rem;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            background: white;
+        }
+
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th { background: #f8fafc; padding: 1.25rem; text-align: left; font-weight: 800; font-size: 0.85rem; border-bottom: 1px solid #e2e8f0; color: var(--text-muted); text-transform: uppercase; }
+        td { padding: 1.25rem; border-bottom: 1px solid #f1f5f9; font-size: 1rem; color: var(--text-main); }
+
+        /* Footer */
+        .workspace-footer {
+            padding: 2rem clamp(1.5rem, 5vw, 6rem);
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            position: sticky;
+            bottom: 0;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            padding: 1rem 2rem;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            flex: 1;
+            max-width: 250px;
+        }
+
+        .btn-prev { background: #f1f5f9; color: #475569; }
+        .btn-prev:hover { background: #e2e8f0; }
+        .btn-next { background: var(--bg-dark); color: white; }
+        .btn-next:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(15, 23, 42, 0.2); }
+
+        /* Floating AI Chat Widget */
+        .chat-widget {
+            position: fixed;
+            right: clamp(20px, 5vw, 40px);
+            bottom: clamp(20px, 5vw, 40px);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .chat-button {
+            width: clamp(60px, 15vw, 70px);
+            height: clamp(60px, 15vw, 70px);
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
+            transition: var(--transition);
+            color: white;
+            font-size: 1.75rem;
+            border: none;
+        }
+
+        .chat-window {
+            width: clamp(300px, 90vw, 380px);
+            height: clamp(450px, 70vh, 550px);
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 30px 100px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid #f1f5f9;
+            animation: slideUp 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .chat-header {
+            padding: 1.25rem 1.75rem;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .chat-header .bot-avatar {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .chat-header .bot-info h4 { font-size: 0.95rem; font-weight: 800; }
+        .chat-header .bot-info p { font-size: 0.7rem; opacity: 0.8; }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1.25rem;
+            overflow-y: auto;
+            background: #fdfdfd;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 0.85rem 1.1rem;
+            border-radius: 18px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            position: relative;
+        }
+
+        .message-bot {
+            align-self: flex-start;
+            background: #f1f5f9;
+            color: var(--text-main);
+            border-bottom-left-radius: 5px;
+        }
+
+        .message-user {
+            align-self: flex-end;
+            background: var(--primary);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .chat-input-area {
+            padding: 1rem;
+            background: white;
+            border-top: 1px solid #f1f5f9;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.75rem 1.1rem;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .chat-send {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 900;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <div class="brand-title" style="font-size: 1.2rem; margin-bottom: 0;">🚁 DRONE AGRO</div>
+        <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-sub">Trilha de Especialização</div>
+            <div class="brand-title">🌿 DRONE AGRO</div>
+            <div class="instructor-branding">
+                <span>By Jamerson Cunha</span>
+                <span style="font-size: 1rem;">⚡</span>
+            </div>
+        </div>
+        
+        <div class="progress-box">
+            <div class="progress-bar-outer">
+                <div class="progress-bar-inner" id="progressBar"></div>
+            </div>
+            <div class="progress-meta">
+                <span>CONFORMIDADE DO ESPECIALISTA</span>
+                <span id="progressPercent">0%</span>
+            </div>
+        </div>
+
+        <nav class="nav-list" id="moduleNav">
+            <!-- JS Inject -->
+        </nav>
+    </aside>
+
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <!-- Main Content -->
+    <main class="main-workspace">
+        <header class="hero-banner" id="moduleHeader">
+            <!-- JS Inject -->
+        </header>
+
+        <div class="content-body" id="moduleContent">
+            <!-- JS Inject -->
+        </div>
+
+        <footer class="workspace-footer">
+            <button class="nav-btn btn-prev" id="btnPrev" onclick="changeModule(currentModuleIndex - 1)">
+                ← Voltar
+            </button>
+            <button class="nav-btn btn-next" id="btnNext" onclick="changeModule(currentModuleIndex + 1)">
+                Próximo Módulo →
+            </button>
+        </footer>
+    </main>
+
+    <!-- AI Chat Widget -->
+    <div class="chat-widget">
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <div class="bot-avatar">🤖</div>
+                <div class="bot-info">
+                    <h4>AgroBot IA</h4>
+                    <p>Tutor Especialista em Drones</p>
+                </div>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message message-bot">
+                    Olá! Sou o AgroBot. Tenho todo o conhecimento sobre legislação de drones e tecnologias agrícolas. Como posso te ajudar hoje?
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Tire sua dúvida aqui...">
+                <button class="chat-send" onclick="sendMessage()" style="margin-right: 5px;">▶</button>
+                <a href="https://wa.me/5500000000000" target="_blank" class="chat-send" style="background: #25d366; text-decoration: none; display: flex; align-items: center; justify-content: center;">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                </a>
+            </div>
+        </div>
+        <button class="chat-button" onclick="toggleChat()">💬</button>
+    </div>
+
+    <script>
+        const modules = [
+            {
+                id: 1,
+                title: "Legislação e Portaria MAPA",
+                description: "Domine o arcabouço jurídico essencial: ANAC, DECEA e a Portaria 298/2021 do MAPA.",
+                image: "media/legal.png",
+                video: "https://www.youtube.com/embed/t5wqTjQ_QCk",
+                content: `
+                    <section class="reveal-up">
+                        <span class="section-tag">Conformidade Legal</span>
+                        <h2 class="section-title">A Base Jurídica do Operador</h2>
+                        <p class="rich-text">Operar drones no agronegócio exige mais do que habilidade de voo; exige conformidade com três esferas de regulação. A <strong>Portaria 298/2021</strong> é o divisor de águas, tornando obrigatório o curso CAAR e o registro no SIPEAGRO para qualquer aplicação aeroagrícola.</p>
+                        
+                        <div class="agro-check-list">
+                            <div class="agro-check-item"><strong>Registro SISANT (Equipamento):</strong> Cadastro obrigatório do equipamento junto à ANAC.</div>
+                            <div class="agro-check-item"><strong>Homologação ANATEL (Frequência):</strong> Regularização da frequência de rádio para evitar interferências.</div>
+                            <div class="agro-check-item"><strong>Certificado CAAR (Operador MAPA):</strong> O Certificado de Aplicador Aeroagrícola Remoto é a habilitação obrigatória.</div>
+                            <div class="agro-check-item"><strong>Registro de Operador no SIPEAGRO:</strong> Registro da empresa ou produtor rural como operador perante o MAPA.</div>
+                            <div class="agro-check-item"><strong>Seguro RETA (Danos a Terceiros):</strong> Proteção obrigatória para operação aérea em todo território nacional.</div>
+                            <div class="agro-check-item"><strong>Autorização SARPAS (Espaço Aéreo):</strong> Sistema para solicitação de acesso ao espaço aéreo brasileiro (DECEA).</div>
+                        </div>
+                    </section>
+                `
+            },
+            {
+                id: 2,
+                title: "Economia e ROI: Vale a pena?",
+                description: "Análise financeira detalhada: Como a tecnologia elimina o amassamento e reduz custos operacionais.",
+                image: "media/agro.png",
+                video: "https://www.youtube.com/embed/iWjWdIzFzyQ",
+                content: `
+                    <section class="reveal-up">
+                        <span class="section-tag">Viabilidade Econômica</span>
+                        <h2 class="section-title">Rentabilidade Além da Pulverização</h2>
+                        <p class="rich-text">O Retorno sobre Investimento (ROI) em drones é acelerado pela eliminação do <strong>amassamento</strong> causado por tratores pesados, que pode destruir entre 3% e 5% de toda a área plantada.</p>
+                        
+                        <div class="agro-stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-val">3% a 5%</div>
+                                <div class="stat-label">Ganho em Produtividade Direta</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-val">R$ 150/ha</div>
+                                <div class="stat-label">Economia em Diesel e Insumos</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-val">6 Meses</div>
+                                <div class="stat-label">Payback Estimado</div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-agro">
+                            <div class="panel-label">Vale a pena o drone?</div>
+                            <p>Enquanto um autopropelido tradicional custa milhões de reais e compacta o solo, uma frota de drones oferece alta capilaridade operacional com baixo investimento inicial e impacto zero na estrutura do solo.</p>
+                        </div>
+                    </section>
+                `
+            },
+            {
+                id: 3,
+                title: "Princípios de Compra",
+                description: "Guia estratégico para investir no equipamento certo para sua necessidade.",
+                image: "media/buying.png",
+                video: "https://www.youtube.com/embed/YIu0K0y2Lc8",
+                content: `
+                    <section class="reveal-up">
+                        <span class="section-tag">Investimento Inteligente</span>
+                        <h2 class="section-title">Como escolher seu Drone?</h2>
+                        <p class="rich-text">A compra de um drone de pulverização é um investimento de alto valor. Entender os princípios de autonomia, suporte técnico e capacidade de carga é fundamental para não errar na escolha.</p>
+                        
+                        <div class="agro-check-list">
+                            <div class="agro-check-item"><strong>Suporte Pós-Venda:</strong> Essencial para manutenção e peças de reposição rápida durante a safra.</div>
+                            <div class="agro-check-item"><strong>Capacidade de Bateria:</strong> Avalie o número de carregadores e baterias necessários para operação contínua.</div>
+                            <div class="agro-check-item"><strong>Compatibilidade de Softwares:</strong> Verifique se o equipamento integra com seus sistemas de mapeamento.</div>
+                        </div>
+                    </section>
+                `
+            },
+            {
+                id: 4,
+                title: "O que é GSD?",
+                description: "Ground Sample Distance: O pilar da qualidade do mapeamento aéreo.",
+                image: "media/apps.png",
+                video: "https://www.youtube.com/embed/Ezj3iNTnnXw",
+                content: `
+                    <section class="reveal-up">
+                        <span class="section-tag">Cartografia Digital</span>
+                        <h2 class="section-title">Entendendo a Resolução Espacial</h2>
+                        <p class="rich-text">O GSD define o tamanho de cada pixel no terreno. Um GSD de 2cm significa que cada pixel na imagem representa 2cm na realidade. Quanto menor o GSD, maior o nível de detalhamento do seu mapa.</p>
+                        
+                        <div class="panel panel-legal">
+                            <div class="panel-label">Fator de Altura</div>
+                            <p>O GSD é diretamente influenciado pela altura do voo e pela resolução da câmera. Voar mais baixo gera um GSD menor (mais detalhes), mas aumenta o tempo de voo e o número de fotos.</p>
+                        </div>
+                    </section>
+                `
+            },
+            {
+                id: 5,
+                title: "Sensores Multiespectrais (NDVI)",
+                description: "Interpretação de índices vegetativos para detecção precoce de estresse e pragas.",
+                image: "media/components.png",
+                content: `
+                    <section class="reveal-up">
+                        <span class="section-tag">Monitoramento de Precisão</span>
+                        <h2 class="section-title">NDVI vs NDRE</h2>
+                        <p class="rich-text">Sensores multiespectrais capturam a refletância da planta em bandas invisíveis ao olho humano. Isso permite medir o vigor fotossintético antes de se tornarem visíveis.</p>
+                        
+                        <div class="data-table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Índice Vegetativo</th>
+                                        <th>Melhor Uso</th>
+                                        <th>Diferencial Técnico</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>NDVI</strong></td>
+                                        <td>Culturas jovens e porte baixo.</td>
+                                        <td>Excelente para detectar falhas iniciais e vigor vegetativo geral.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>NDRE</strong></td>
+                                        <td>Culturas densas ou altas (Milho, Cana).</td>
+                                        <td>Penetra mais no dossel, detectando deficiência de nitrogênio nas folhas baixeiras.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>RGB (Vari)</strong></td>
+                                        <td>Cobertura de Solo Verde</td>
+                                        <td>Estimativa de stand e contagem automatizada de plantas.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="panel panel-instructor">
+                            <div class="panel-label">Demarcação de Plantio</div>
+                            <p>O drone é a ferramenta ideal para apresentar a <strong>melhor área para plantio</strong> devido à visão vertical, facilitando decisões ágeis após análise detalhada das imagens captadas.</p>
+                        </div>
+                    </section>
+                `
+            },
+            {
+                id: 6,
+                title: "Vigilância Inteligente",
+                description: "Tecnologia térmica e zoom de longo alcance para gestão pecuária e segurança patrimonial.",
+                image: "media/agro.png",
+                video: "https://www.youtube.com/embed/sL6WPWdu0R8",
+                content: `
+                    <section class="reveal-up">
+                        <span class="section-tag">Pecuária 4.0</span>
+                        <h2 class="section-title">Segurança e Monitoramento</h2>
+                        <p class="rich-text">Especialmente em regiões com alta incidência de roubo de gado, o drone atua como um sistema de segurança móvel. Monitoramentos realizados 3 vezes ao dia permitem o controle total da propriedade sem deslocamento físico.</p>
+                        
+                        <div class="agro-check-list">
+                            <div class="agro-check-item"><strong>Módulos de 500m:</strong> Divisão da fazenda em raios de cobertura para 100% de visão e controle total.</div>
+                            <div class="agro-check-item"><strong>Focos de Incêndio:</strong> Detecção prematura de fogo para controle sem risco humano e proteção de pastagens.</div>
+                            <div class="agro-check-item"><strong>Contagem de Gado:</strong> Uso de sensores térmicos para conferência automatizada de rebanho em áreas densas.</div>
+                            <div class="agro-check-item"><strong>Monitoramento de Desmatamento:</strong> Alcance de áreas remotas e de difícil acesso para proteção ambiental.</div>
+                        </div>
+                    </section>
+                `
+            },
+            {
+                id: 7,
+                title: "Tecnologia de Pulverização (Agras T50)",
+                description: "Mecânica de fluidos e o efeito Downwash: A ciência por trás da gota perfeita.",
+                image: "media/agro.png",
+                video: "https://www.youtube.com/embed/hKM04FyOdms",
+                content: `
+                    <section class="reveal-up">
+                        <span class="section-tag">Engenharia de Aplicação</span>
+                        <h2 class="section-title">O Poder do Vórtice</h2>
+                        <p class="rich-text">Os drones pulverizadores utilizam o <strong>Downwash</strong> (vórtice de ar) para empurrar as gotas para baixo. Isso garante que o produto atinja até mesmo a face inferior das folhas, garantindo uma cobertura uniforme impossível por métodos manuais.</p>
+                        
+                        <div class="agro-stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-val">40L</div>
+                                <div class="stat-label">Capacidade do Agras T50</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-val">12L/min</div>
+                                <div class="stat-label">Vazão do Sistema de Bomba</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-val">22ha/h</div>
+                                <div class="stat-label">Eficiência Operacional Média</div>
+                            </div>
+                        </div>
+                    </section>
+                `
+            },
+            {
+                id: 8,
+                title: "Segurança e Deriva Química",
+                description: "Mitigação de riscos: Fatores climáticos e distâncias de segurança obrigatórias.",
+                image: "media/safety.png",
+                content: `
+                    <section class="reveal-up">
+                        <span class="section-tag">Gestão Socioambiental</span>
+                        <h2 class="section-title">Gestão da Deriva</h2>
+                        <p class="rich-text">A pulverização aérea exige controle rigoroso das condições climáticas. A <strong>Deriva</strong> é o maior risco de um operador aeroagrícola e deve ser mitigada com bicos anti-deriva e horários adequados.</p>
+
+                        <div class="panel panel-danger">
+                            <div class="panel-label">Limites Operacionais MAPA</div>
+                            <p><strong>Vento:</strong> Máximo 15km/h para evitar deslocamento da calda. <br>
+                            <strong>Temperatura:</strong> Ideal abaixo de 30°C para evitar evaporação. <br>
+                            <strong>Umidade:</strong> Mínimo de 50% para garantir a vida da gota. <br>
+                            <strong>Distância:</strong> Respeitar 250m de mananciais e 100m de povoados.</p>
+                        </div>
+                    </section>
+                `
+            },
+            {
+                id: 9,
+                title: "Processamento e Softwares",
+                description: "Do cartão SD ao Mapa de Prescrição: O fluxo de trabalho digital completo.",
+                image: "media/apps.png",
+                content: `
+                    <section class="reveal-up">
+                        <span class="section-tag">Data Science Rural</span>
+                        <h2 class="section-title">Workflow de Elite</h2>
+                        <p class="rich-text">O processamento transforma fotos brutas em inteligência. Softwares como o DJI Terra e Pix4DFields são o padrão da indústria para gerar ortomosaicos e mapas de prescrição precisos.</p>
+                        
+                        <div class="agro-check-list">
+                            <div class="agro-check-item"><strong>Fotogrametria:</strong> Geração de mapas 2D e modelos 3D georreferenciados.</div>
+                            <div class="agro-check-item"><strong>Mapas de Prescrição (VRT):</strong> Aplicação localizada com taxa variável.</div>
+                            <div class="agro-check-item"><strong>Análise de Saúde:</strong> Algoritmos AI para detecção automática de falhas.</div>
+                            <div class="agro-check-item"><strong>Integração:</strong> Exportação de arquivos (.shp) para maquinário agrícola John Deere/Case.</div>
+                        </div>
+                    </section>
+                `
+            },
+            {
+                id: 10,
+                title: "Missões e Sobreposição",
+                description: "Planejamento avançado: Faixas de sobreposição, Swath e RTK para precisão total.",
+                image: "media/modes.png",
+                video: "https://www.youtube.com/embed/2f_iaacUuXk",
+                content: `
+                    <section class="reveal-up">
+                        <span class="section-tag">Operação Prática</span>
+                        <h2 class="section-title">Eficiência em Swath</h2>
+                        <p class="rich-text">O planejamento correto da largura da faixa de aplicação (swath) garante que não fiquem 'buracos' no talhão. O sistema RTK centimétrico permite que o drone retorne exatamente ao ponto de recarga sem perder o rastro.</p>
+                        
+                        <div class="panel panel-legal">
+                            <div class="panel-label">Sobreposição entre imagens</div>
+                            <p>Utilize sempre uma sobreposição (overlap) lateral de 15% a 25% para garantir a cobertura total. No mapeamento, a sobreposição frontal deve ser superior a 70% para garantir a costura perfeita das imagens.</p>
+                        </div>
+                    </section>
+                `
+            },
+            {
+                id: 11,
+                title: "Manutenção de Drones Pesados",
+                description: "Conservação de ativos: Cuidados com bombas, bicos e baterias de alta performance.",
+                image: "media/trouble.png",
+                content: `
+                    <section class="reveal-up">
+                        <span class="section-tag">Engenharia Preventiva</span>
+                        <h2 class="section-title">Protocolo Pós-Voo</h2>
+                        <p class="rich-text">Os drones agrícolas operam em ambientes extremos. A manutenção rigorosa não é opcional; é a garantia de que seu investimento estará pronto para a próxima safra sem falhas críticas.</p>
+                        
+                        <ul class="agro-check-list" style="grid-template-columns: 1fr;">
+                            <li class="agro-check-item"><strong>Lavagem do Sistema:</strong> Limpeza total de bicos e bombas com água limpa para evitar cristalização.</li>
+                            <li class="agro-check-item"><strong>Sensores de Radar:</strong> Limpeza ótica para garantir o desvio de obstáculos e precisão de altura.</li>
+                            <li class="agro-check-item"><strong>Terminais de Bateria:</strong> Verificação de corrosão e armazenamento em temperatura controlada.</li>
+                            <li class="agro-check-item"><strong>Inspeção de Hélices:</strong> Verificação de micro-fissuras que podem comprometer a segurança do voo.</li>
+                        </ul>
+                    </section>
+                `
+            }
+        ];
+
+        let currentModuleIndex = 0;
+        let completedModules = new Set();
+
+        function init() {
+            renderNav();
+            updateModule();
+        }
+
+        function renderNav() {
+            const nav = document.getElementById('moduleNav');
+            nav.innerHTML = modules.map((m, index) => {
+                const isCompleted = completedModules.has(index);
+                const isActive = index === currentModuleIndex;
+                return `
+                    <div class="nav-item ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}" onclick="changeModule(${index})">
+                        <div class="nav-num">${index + 1}</div>
+                        <div class="nav-content">
+                            <div class="nav-title">${m.title}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateModule() {
+            const m = modules[currentModuleIndex];
+            const contentArea = document.getElementById('moduleContent');
+            const headerArea = document.getElementById('moduleHeader');
+
+            contentArea.style.opacity = '0';
+            headerArea.style.opacity = '0';
+
+            setTimeout(() => {
+                headerArea.innerHTML = `<div class="reveal-up"><h1>${m.title}</h1><p class="hero-desc">${m.description}</p></div>`;
+                
+                let mediaHtml = `<div class="media-frame reveal-up">`;
+                if (m.video) {
+                    mediaHtml += `<div class="video-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 20px;">
+                                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="${m.video}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                  </div>`;
+                } else {
+                    mediaHtml += `<img src="${m.image}" alt="${m.title}">`;
+                }
+                mediaHtml += `</div>`;
+
+                contentArea.innerHTML = mediaHtml + m.content;
+                
+                contentArea.style.opacity = '1';
+                headerArea.style.opacity = '1';
+
+                document.getElementById('btnPrev').disabled = currentModuleIndex === 0;
+                document.getElementById('btnNext').innerText = currentModuleIndex === modules.length - 1 ? 'Finalizar Certificação Agro' : 'Próximo Módulo';
+                
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                updateProgress();
+                renderNav();
+            }, 300);
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            sidebar.classList.toggle('open');
+            overlay.style.display = sidebar.classList.contains('open') ? 'block' : 'none';
+        }
+
+        function changeModule(index) {
+            if (index < 0) return;
+            if (index >= modules.length) {
+                completedModules.add(currentModuleIndex);
+                updateProgress();
+                renderNav();
+                alert("CERTIFICAÇÃO AGRO CONCLUÍDA! Você agora é um especialista de elite pela Facility Air.");
+                return;
+            }
+            if (index > currentModuleIndex) completedModules.add(currentModuleIndex);
+            currentModuleIndex = index;
+            updateModule();
+            
+            if (window.innerWidth <= 1300) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.querySelector('.sidebar-overlay');
+                sidebar.classList.remove('open');
+                overlay.style.display = 'none';
+            }
+        }
+
+        function updateProgress() {
+            const percent = Math.round((completedModules.size / modules.length) * 100);
+            document.getElementById('progressBar').style.width = percent + '%';
+            document.getElementById('progressPercent').innerText = percent + '%';
+        }
+
+        function toggleChat() {
+            const win = document.getElementById('chatWindow');
+            win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            const container = document.getElementById('chatMessages');
+            const userDiv = document.createElement('div');
+            userDiv.className = 'message message-user';
+            userDiv.innerText = msg;
+            container.appendChild(userDiv);
+            input.value = '';
+
+            setTimeout(() => {
+                const botDiv = document.createElement('div');
+                botDiv.className = 'message message-bot';
+                botDiv.innerText = "Excelente pergunta! Como especialista da Facility Air, posso te confirmar que o uso de drones no agronegócio pode gerar uma economia de até 80% em insumos. Além disso, o ROI é extremamente rápido devido à eliminação do amassamento da cultura. Como posso te ajudar com mais detalhes técnicos sobre os sensores ou a pulverização?";
+                container.appendChild(botDiv);
+                container.scrollTop = container.scrollHeight;
+            }, 1000);
+        }
+
+        init();
+    </script>
+</body>
+</html>

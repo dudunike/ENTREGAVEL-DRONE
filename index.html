@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jamerson Cunha | Trilha Drone de Elite</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --agro-green: #22c55e;
+            --agro-yellow: #facc15;
+            --agro-black: #052e16;
+            --pilot-blue: #0ea5e9;
+            --pilot-black: #020617;
+            --white: #ffffff;
+            --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Sora', sans-serif;
+        }
+
+        body {
+            background-color: #000;
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+        }
+
+        @media (max-width: 900px) {
+            body { flex-direction: column; overflow-y: auto; height: auto; }
+        }
+
+        .gateway-side {
+            flex: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 6rem;
+            text-decoration: none;
+            color: white;
+            transition: var(--transition);
+            overflow: hidden;
+            cursor: pointer;
+            border: 0 solid rgba(255,255,255,0.1);
+        }
+
+        .gateway-side::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+            transition: transform 2s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: grayscale(80%) brightness(0.2);
+        }
+
+        .side-agro::before { background-image: url('media/path_agro.png'); }
+        .side-pilot::before { background-image: url('media/path_pilot.png'); }
+
+        .gateway-side:hover::before {
+            transform: scale(1.15);
+            filter: grayscale(0%) brightness(0.5);
+        }
+
+        /* Animated Gradients */
+        .side-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 2;
+            transition: var(--transition);
+            background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 100%);
+        }
+
+        .side-agro .side-overlay {
+            background: linear-gradient(-45deg, rgba(5, 46, 22, 0.9), rgba(34, 197, 94, 0.2), rgba(250, 204, 21, 0.1), rgba(0,0,0,0.8));
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        .side-pilot .side-overlay {
+            background: linear-gradient(-45deg, rgba(2, 6, 23, 0.9), rgba(14, 165, 233, 0.2), rgba(0,0,0,0.8));
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .side-agro:hover .side-overlay { opacity: 0.95; }
+        .side-pilot:hover .side-overlay { opacity: 0.95; }
+
+        .side-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            max-width: 600px;
+            transform: translateY(40px);
+            transition: var(--transition);
+        }
+
+        .gateway-side:hover .side-content { transform: translateY(0) scale(1.02); }
+
+        .logo-area {
+            margin-bottom: 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .main-logo-placeholder {
+            width: 140px;
+            height: 140px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4.5rem;
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,255,255,0.1);
+            transition: var(--transition);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        .side-agro .main-logo-placeholder { border-color: var(--agro-green); box-shadow: 0 0 60px rgba(34, 197, 94, 0.5); color: var(--agro-yellow); }
+        .side-pilot .main-logo-placeholder { border-color: var(--pilot-blue); box-shadow: 0 0 60px rgba(14, 165, 233, 0.5); color: var(--white); }
+
+        .main-logo-img {
+            height: 100px;
+            width: auto;
+            object-fit: contain;
+            transition: var(--transition);
+        }
+
+        .instructor-logo-img {
+            height: 35px;
+            width: auto;
+            object-fit: contain;
+            opacity: 1;
+            margin-top: 1.5rem;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+        }
+
+        .gateway-side:hover .main-logo-img { transform: scale(1.15) rotate(3deg); }
+
+        .side-agro .main-logo-placeholder { border-color: var(--agro-green); box-shadow: 0 0 50px rgba(34, 197, 94, 0.5); color: var(--agro-yellow); }
+        .side-pilot .main-logo-placeholder { border-color: var(--pilot-blue); box-shadow: 0 0 50px rgba(14, 165, 233, 0.5); color: var(--white); }
+
+        .instructor-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid var(--white);
+            box-shadow: 0 0 50px rgba(255,255,255,0.3);
+        }
+
+        .instructor-tag {
+            font-size: 0.9rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: rgba(255,255,255,0.7);
+            margin-top: 0.5rem;
+        }
+
+        .action-row {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .video-preview-btn {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 1.2rem 2.5rem;
+            border-radius: 24px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .video-preview-btn:hover {
+            background: white;
+            color: black;
+            transform: translateY(-5px);
+        }
+
+        .play-icon { font-size: 1.2rem; }
+
+        /* Video Stage */
+        .video-stage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .video-stage.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .video-container {
+            width: 80%;
+            max-width: 1000px;
+            aspect-ratio: 16/9;
+            position: relative;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            box-shadow: 0 0 100px rgba(0,0,0,0.5);
+        }
+
+        .close-video {
+            position: absolute;
+            top: -60px;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+        }
+
+        .side-title {
+            font-size: clamp(3.5rem, 8vw, 5rem);
+            font-weight: 900;
+            letter-spacing: -4px;
+            margin-bottom: 1.5rem;
+            line-height: 0.9;
+            text-transform: uppercase;
+        }
+
+        .side-agro .side-title { color: var(--agro-green); text-shadow: 0 0 40px rgba(34, 197, 94, 0.6); }
+        .side-pilot .side-title { color: var(--pilot-blue); text-shadow: 0 0 40px rgba(14, 165, 233, 0.6); }
+
+        .side-desc {
+            font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+            font-weight: 500;
+            opacity: 1;
+            margin-bottom: 4rem;
+            line-height: 1.3;
+            color: var(--white);
+            max-width: 650px;
+        }
+
+        .side-btn {
+            padding: 1.8rem 4.5rem;
+            border-radius: 24px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            color: var(--agro-black);
+        }
+
+        .side-agro .side-btn { background: linear-gradient(135deg, var(--agro-green) 0%, var(--agro-yellow) 100%); box-shadow: 0 20px 50px rgba(34, 197, 94, 0.5); }
+        .side-pilot .side-btn { background: linear-gradient(135deg, var(--pilot-blue) 0%, var(--white) 100%); box-shadow: 0 20px 50px rgba(14, 165, 233, 0.5); color: var(--pilot-black); }
+
+        .side-btn:hover { transform: translateY(-5px) scale(1.05); }
+
+        .logo-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(20px);
+            padding: 2rem;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 0 100px rgba(0,0,0,0.8);
+            width: 140px;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 2rem;
+            pointer-events: none;
+        }
+
+        @media (max-width: 900px) {
+            .logo-center { display: none; }
+            .gateway-side { height: 50vh; padding: 2.5rem; }
+            .side-title { font-size: 2.8rem; }
+        }
+
+        .reveal-anim {
+            animation: revealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+
+        @keyframes revealUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo-center">
+        <img src="jamerson_profile.png" alt="Jamerson Cunha" class="instructor-photo" onerror="this.src='https://ui-avatars.com/api/?name=Jamerson+Cunha&background=22c55e&color=fff&size=128'">
+    </div>
+
+    <a href="agro.html" class="gateway-side side-agro">
+        <div class="side-overlay"></div>
+        <div class="side-content reveal-anim" style="animation-delay: 0.2s;">
+            <div class="logo-area">
+                <div class="main-logo-container">
+                    <img src="logo_agro.png" alt="Drone Agro Logo" class="main-logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                    <div class="main-logo-placeholder" style="display:none">🌿</div>
+                </div>
+                <div class="instructor-tag">Instrutor Jamerson Cunha</div>
+            </div>
+            <h2 class="side-title">DRONE AGRO</h2>
+            <p class="side-desc">A tecnologia que está revolucionando o campo. Formação técnica de elite para operadores agrícolas.</p>
+            <div class="action-row">
+                <button class="side-btn">Iniciar Trilha Agro</button>
+                <button class="video-preview-btn" onclick="openVideo('agro', event)">
+                    <span class="play-icon">▶</span> Assistir Vídeo
+                </button>
+            </div>
+        </div>
+        <!-- Video Backdrop (Hidden by default) -->
+        <div class="video-stage" id="video-agro">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/t5wqTjQ_QCk" frameborder="0" allowfullscreen></iframe>
+                <button class="close-video" onclick="closeVideo('agro', event)">×</button>
+            </div>
+        </div>
+    </a>
+
+    <a href="pilot.html" class="gateway-side side-pilot">
+        <div class="side-overlay"></div>
+        <div class="side-content reveal-anim" style="animation-delay: 0.4s;">
+            <div class="logo-area">
+                <div class="main-logo-container">
+                    <img src="logo_pilot.png" alt="Drone Pilot Logo" class="main-logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                    <div class="main-logo-placeholder" style="display:none">🎬</div>
+                </div>
+                <div class="instructor-tag">Instrutor Jamerson Cunha</div>
+            </div>
+            <h2 class="side-title">DRONE PILOT</h2>
+            <p class="side-desc">Domine as câmeras e crie produções cinematográficas de alto nível com quem vive do mercado.</p>
+            <div class="action-row">
+                <button class="side-btn">Iniciar Trilha Filmagens</button>
+                <button class="video-preview-btn" onclick="openVideo('pilot', event)">
+                    <span class="play-icon">▶</span> Assistir Vídeo
+                </button>
+            </div>
+        </div>
+        <!-- Video Backdrop (Hidden by default) -->
+        <div class="video-stage" id="video-pilot">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/YIu0K0y2Lc8" frameborder="0" allowfullscreen></iframe>
+                <button class="close-video" onclick="closeVideo('pilot', event)">×</button>
+            </div>
+        </div>
+    </a>
+
+    <script>
+        function openVideo(type, event) {
+            event.preventDefault();
+            event.stopPropagation();
+            document.getElementById('video-' + type).classList.add('active');
+        }
+        function closeVideo(type, event) {
+            event.preventDefault();
+            event.stopPropagation();
+            document.getElementById('video-' + type).classList.remove('active');
+            // Pause video logic could be added here
+        }
+    </script>
+
+</body>
+</html>

@@ -564,7 +564,15 @@
         </div>
     </a>
 
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script>
+        // CONFIGURAÇÃO SUPABASE
+        const SUPABASE_URL = 'https://tlbjpzkfgnfeloqphnqb.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_MPKgWj01zzyQ8_n7O-WwQw_DfyrZ8ki';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
         // Auth Logic
         function checkAuth() {
             const user = localStorage.getItem('agroUser');
@@ -573,16 +581,35 @@
             }
         }
 
-        function handleLogin(event) {
+        async function handleLogin(event) {
             event.preventDefault();
-            const email = document.getElementById('emailInput').value;
+            const email = document.getElementById('emailInput').value.toLowerCase().trim();
             const password = document.getElementById('passwordInput').value;
 
-            if (password === 'mude123') {
-                localStorage.setItem('agroUser', JSON.stringify({ email: email }));
-                document.getElementById('loginOverlay').style.display = 'none';
-            } else {
-                alert('Senha incorreta. Use a senha padrão ou verifique com o suporte.');
+            // 1. Verifica senha padrão
+            if (password !== 'mude123') {
+                alert('Senha incorreta. Use a senha padrão mude123.');
+                return;
+            }
+
+            // 2. Verifica se o e-mail está liberado no Supabase
+            try {
+                const { data, error } = await supabaseClient
+                    .from('allowed_emails')
+                    .select('email')
+                    .eq('email', email)
+                    .single();
+
+                if (data) {
+                    localStorage.setItem('agroUser', JSON.stringify({ email: email }));
+                    document.getElementById('loginOverlay').style.display = 'none';
+                    alert('Acesso liberado! Bem-vindo(a).');
+                } else {
+                    alert('Este e-mail ainda não está liberado. Verifique se o pagamento foi aprovado ou fale com o suporte.');
+                }
+            } catch (err) {
+                console.error('Erro de Login:', err);
+                alert('Ocorreu um erro ao verificar seu acesso. Tente novamente em instantes.');
             }
         }
 
@@ -592,7 +619,6 @@
                 window.location.href = url;
             } else {
                 document.getElementById('loginOverlay').style.display = 'flex';
-                alert('Por favor, faça login para acessar a trilha.');
             }
         }
 

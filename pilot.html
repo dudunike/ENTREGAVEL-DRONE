@@ -292,6 +292,11 @@
         </div>
 
         <nav class="nav-list" id="moduleNav"></nav>
+
+        <div class="sidebar-footer" style="padding: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05);">
+            <button class="nav-btn" style="width: 100%; margin-bottom: 0.75rem; background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.6);" onclick="logout()">🚪 Sair</button>
+            <a href="index.html" class="nav-btn btn-next" style="width: 100%; text-decoration: none; text-align: center; display: block;">🏠 Início</a>
+        </div>
     </aside>
 
     <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
@@ -309,28 +314,84 @@
         const modules = [
             {
                 id: 1,
-                title: "Introdução à Pilotagem Criativa",
-                description: "O mindset do piloto de cinema e as configurações essenciais para imagem fluida.",
+                title: "Mindset Cinematográfico",
+                description: "A transição do piloto casual para o diretor de cena. Entenda a fluidez e o tempo do cinema.",
                 image: "media/pilotage.png",
                 content: `
                     <section>
                         <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">A Visão do Diretor</h2>
-                        <p style="margin-bottom: 1.5rem;">Pilotar para filmagem é diferente de pilotar para lazer. Aqui, o foco é a <strong>suavidade</strong>. Aprenda a configurar seus sticks para movimentos cinematográficos e evitar guinadas bruscas.</p>
-                        <div style="padding: 2rem; background: #eff6ff; border-radius: 20px; border: 1px solid #bfdbfe;">
-                            <strong>Dica de Jamerson:</strong> "O segredo de uma imagem de cinema não está no drone, mas no dedo do piloto. Menos é mais."
+                        <p style="margin-bottom: 1.5rem; font-size: 1.1rem;">Pilotar para filmagem é diferente de pilotar para lazer. Aqui, o foco é a <strong>suavidade</strong>. Aprenda a configurar seus sticks para movimentos cinematográficos e evitar guinadas bruscas.</p>
+                        <div style="padding: 2.5rem; background: rgba(14, 165, 233, 0.05); border-radius: 24px; border: 1px solid rgba(14, 165, 233, 0.1);">
+                            <strong style="color: var(--primary);">Dica de Jamerson:</strong> "O segredo de uma imagem de cinema não está no drone, mas no dedo do piloto. Menos é mais."
                         </div>
                     </section>
                 `
             },
             {
                 id: 2,
-                title: "Composição e Enquadramento",
-                description: "Regra dos terços, simetria e como guiar o olhar do espectador.",
+                title: "Configurações de Câmera Profissional",
+                description: "Domine o ISO, Shutter Speed (Regra dos 180°) e Perfis de Cor (D-Log/HLG).",
                 image: "media/photo.png",
                 content: `
                     <section>
-                        <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">Pintando com o Drone</h2>
-                        <p>Dominar a composição aérea é o que separa um amador de um profissional. Entenda como usar as linhas naturais do cenário para criar profundidade e impacto visual.</p>
+                        <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">Extraindo o Máximo do Sensor</h2>
+                        <p style="margin-bottom: 1.5rem; font-size: 1.1rem;">Para imagens profissionais, o modo automático é seu inimigo. Entenda como o <strong>ND Filter</strong> é essencial para manter o motion blur correto e como o perfil logarítmico salva suas altas luzes.</p>
+                        <ul style="list-style: none; display: grid; gap: 1rem;">
+                            <li style="padding: 1.2rem; background: white; border-radius: 12px; border: 1px solid #e2e8f0;">✅ <strong>Regra dos 180°:</strong> Dobro do FPS para Shutter Speed.</li>
+                            <li style="padding: 1.2rem; background: white; border-radius: 12px; border: 1px solid #e2e8f0;">✅ <strong>ISO Nativo:</strong> Como evitar ruído em cenas de baixa luz.</li>
+                            <li style="padding: 1.2rem; background: white; border-radius: 12px; border: 1px solid #e2e8f0;">✅ <strong>White Balance:</strong> Por que travar o balanço de branco é vital.</li>
+                        </ul>
+                    </section>
+                `
+            },
+            {
+                id: 3,
+                title: "Movimentos de Cinema e Gimbal",
+                description: "Orbit, Reveal, Tilt-up e como combinar eixos para cenas dinâmicas.",
+                image: "media/modes.png",
+                content: `
+                    <section>
+                        <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">A Coreografia do Voo</h2>
+                        <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">Movimentos complexos exigem coordenação entre os dois sticks e a roda do gimbal. Vamos praticar o <strong>Parallax</strong> e o <strong>Dolly Zoom</strong> via software.</p>
+                        <div style="margin-top: 2rem; border-radius: 20px; overflow: hidden; border: 1px solid #e2e8f0;">
+                            <img src="media/pilotage.png" style="width: 100%;" alt="Gimbal Control">
+                        </div>
+                    </section>
+                `
+            },
+            {
+                id: 4,
+                title: "Modos Inteligentes e Tracking",
+                description: "ActiveTrack, Point of Interest e Waypoints: Automatizando a perfeição.",
+                image: "media/intro.png",
+                content: `
+                    <section>
+                        <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">A Tecnologia a seu Favor</h2>
+                        <p style="font-size: 1.1rem;">Aprenda a usar o <strong>ActiveTrack 5.0</strong> para seguir veículos e atletas com segurança. Descubra como os Waypoints podem criar timelapses aéreos impossíveis de serem feitos manualmente.</p>
+                    </section>
+                `
+            },
+            {
+                id: 5,
+                title: "Segurança e Ética na Filmagem",
+                description: "Voando em áreas urbanas, privacidade e as regras do DECEA para eventos.",
+                image: "media/safety.png",
+                content: `
+                    <section>
+                        <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">Profissionalismo Acima de Tudo</h2>
+                        <p style="font-size: 1.1rem;">Uma imagem bonita não vale um acidente. Conheça as distâncias de segurança, como ler o K-Index e a importância de respeitar a privacidade alheia em gravações comerciais.</p>
+                    </section>
+                `
+            },
+            {
+                id: 6,
+                title: "Color Grading e Pós-Produção",
+                description: "Introdução ao DaVinci Resolve: Transformando o Log em Cinema.",
+                image: "media/trouble.png",
+                content: `
+                    <section>
+                        <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">Onde a Mágica Acontece</h2>
+                        <p style="font-size: 1.1rem;">O material bruto do drone é apenas metade do trabalho. Aprenda a aplicar <strong>LUTs</strong>, fazer correção primária de exposição e dar o "look" final que seus clientes esperam.</p>
                     </section>
                 `
             }
@@ -387,6 +448,19 @@
             }
         }
 
+        function checkAuth() {
+            const user = localStorage.getItem('agroUser');
+            if (!user) {
+                window.location.href = 'index.html';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('agroUser');
+            window.location.href = 'index.html';
+        }
+
+        window.onload = checkAuth;
         init();
     </script>
 </body>

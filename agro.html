@@ -672,6 +672,15 @@
         <nav class="nav-list" id="moduleNav">
             <!-- JS Inject -->
         </nav>
+
+        <div class="sidebar-footer">
+            <button class="nav-btn btn-prev" style="width: 100%; max-width: none; border-radius: 0; background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.6);" onclick="logout()">
+                🚪 Sair da Conta
+            </button>
+            <a href="index.html" class="nav-btn btn-next" style="width: 100%; max-width: none; border-radius: 0; text-decoration: none; text-align: center;">
+                🏠 Voltar ao Início
+            </a>
+        </div>
     </aside>
 
     <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
@@ -1118,6 +1127,19 @@
             }, 1000);
         }
 
+        function checkAuth() {
+            const user = localStorage.getItem('agroUser');
+            if (!user) {
+                window.location.href = 'index.html';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('agroUser');
+            window.location.href = 'index.html';
+        }
+
+        window.onload = checkAuth;
         init();
     </script>
 </body>
